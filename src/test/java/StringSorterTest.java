@@ -71,4 +71,30 @@ public class StringSorterTest {
         List<String> list = Arrays.asList("", "banana", "avocado", "cherry");
         assertEquals(Arrays.asList("", "banana", "cherry", "avocado"), sorter.sortStrings(list, "a"));
     }
+
+    @Test
+    public void sortsWords_WhenPrefixIsMultipleCharacters() {
+        StringSorter sorter = new StringSorter();
+        List<String> list = Arrays.asList("apple", "banana", "avocado", "applause", "cherry");
+        assertEquals(Arrays.asList("avocado", "banana", "cherry", "apple", "applause"), sorter.sortStrings(list, "app"));
+    }
+
+    @Test
+    public void sortsWords_WhenPrefixIsNumber() {
+        StringSorter sorter = new StringSorter();
+        List<String> list = Arrays.asList("apple", "3banana", "avocado", "3cherry");
+        assertEquals(Arrays.asList("apple", "avocado", "3cherry", "3banana"), sorter.sortStrings(list, "3"));
+    }
+
+    @Test
+    public void sortsWords_WhenInputListIsNull() {
+        StringSorter sorter = new StringSorter();
+        assertEquals(Collections.emptyList(), sorter.sortStrings(null, "a"));
+    }
+
+    @Test
+    public void sortsWords_WhenBothListAndExceptionCharAreNull() {
+        StringSorter sorter = new StringSorter();
+        assertEquals(Collections.emptyList(), sorter.sortStrings(null, null));
+    }
 }
