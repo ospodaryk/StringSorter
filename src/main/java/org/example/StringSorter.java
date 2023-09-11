@@ -24,13 +24,18 @@ public class StringSorter {
      * @return List of sorted strings.
      */
     public List<String> sortStrings(List<String> unsortedStrings, String exceptionChar) {
-        List<String> filteredAndSortedStrings = unsortedStrings.stream().filter(Objects::nonNull).sorted().collect(Collectors.toList());
+        List<String> filteredAndSortedStrings = unsortedStrings.stream()
+                .filter(Objects::nonNull)
+                .sorted()
+                .collect(Collectors.toList());
 
         if ((exceptionChar == null) || (isListEmptyOrNull(unsortedStrings))) {
             return filteredAndSortedStrings;
         }
 
-        return exceptionChar.isEmpty() ? sortByEmptyPrefix(filteredAndSortedStrings) : sortByPrefix(filteredAndSortedStrings, exceptionChar);
+        return exceptionChar.isEmpty()
+                ? sortByEmptyPrefix(filteredAndSortedStrings)
+                : sortByPrefix(filteredAndSortedStrings, exceptionChar);
     }
 
     /**
@@ -53,7 +58,9 @@ public class StringSorter {
      * @return The list with empty strings moved to the end.
      */
     private List<String> sortByEmptyPrefix(List<String> sortedStrings) {
-        List<String> listOfEmptys = sortedStrings.stream().filter(String::isEmpty).collect(Collectors.toList());
+        List<String> listOfEmptys = sortedStrings.stream()
+                .filter(String::isEmpty)
+                .collect(Collectors.toList());
         sortedStrings.removeAll(listOfEmptys);
         sortedStrings.addAll(listOfEmptys);
         return sortedStrings;
@@ -67,9 +74,14 @@ public class StringSorter {
      * @return The list of sorted strings considering the exception character.
      */
     private List<String> sortByPrefix(List<String> sortedStrings, String exceptionChar) {
-        List<String> otherStrings = sortedStrings.stream().filter(s -> !s.startsWith(exceptionChar)).collect(Collectors.toList());
+        List<String> otherStrings = sortedStrings.stream()
+                .filter(s -> !s.startsWith(exceptionChar))
+                .collect(Collectors.toList());
 
-        List<String> exceptionPrefixStrings = sortedStrings.stream().filter(s -> s.startsWith(exceptionChar)).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+        List<String> exceptionPrefixStrings = sortedStrings.stream()
+                .filter(s -> s.startsWith(exceptionChar))
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList());
 
         otherStrings.addAll(exceptionPrefixStrings);
         return otherStrings;
