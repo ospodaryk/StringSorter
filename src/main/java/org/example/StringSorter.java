@@ -24,12 +24,16 @@ public class StringSorter {
      * @return List of sorted strings.
      */
     public List<String> sortStrings(List<String> unsortedStrings, String exceptionChar) {
+        if (isListEmptyOrNull(unsortedStrings)) {
+            return new ArrayList<>();
+        }
+
         List<String> filteredAndSortedStrings = unsortedStrings.stream()
                 .filter(Objects::nonNull)
                 .sorted()
                 .collect(Collectors.toList());
 
-        if ((exceptionChar == null) || (isListEmptyOrNull(unsortedStrings))) {
+        if (exceptionChar == null) {
             return filteredAndSortedStrings;
         }
 
