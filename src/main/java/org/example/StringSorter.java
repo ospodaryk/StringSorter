@@ -49,10 +49,9 @@ public class StringSorter {
     }
 
     /**
-     * Handles sorting for strings that have an empty prefix.
-     * <p>
-     * This method takes a list of already sorted strings and moves all empty strings to the end.
-     * </p>
+     * If prefix is empty only empty words will be correct
+     * This method takes a list of already sorted strings and moves all empty strings to the end
+     * because they equal to our specific empty prefix
      *
      * @param sortedStrings The list of already sorted strings.
      * @return The list with empty strings moved to the end.
