@@ -12,6 +12,8 @@
 
 The `StringSorter` class provides a specialized way to sort a list of strings in Java. The unique feature of this class is its ability to sort words starting with a specific prefix in a different manner than the rest. It also ensures that null or empty strings are handled gracefully.
 
+If prefix='' I decided all not empty elements have to be sorted alphabetically and only elements that are also empty will be in the end. 
+
 ## Example Usage
 
 **Input:** `["apple", "banana", "grape", "avocado", "cherry"]`  
