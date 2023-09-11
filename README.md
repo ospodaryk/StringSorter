@@ -3,26 +3,29 @@
 ## Table of Contents
 
 - [Description](#description)
-- [Example](#example)
-- [Features](#features)
+- [Example Usage](#example-usage)
 - [Methods](#methods)
+- [Additional Features](#additional-features)
+- [Documentation](#documentation)
 
 ## Description
 
-The `StringSorter` class in Java provides a robust way to sort a list of strings. The unique feature of this class is its ability to sort words that start with a specific prefix in a different manner than the rest. The StringSorter class defines the contract for sorting strings based on alphabetical order while skipping words that start with a specific prefix.
+The `StringSorter` class provides a specialized way to sort a list of strings in Java. The unique feature of this class is its ability to sort words starting with a specific prefix in a different manner than the rest. It also ensures that null or empty strings are handled gracefully.
 
 If prefix='' I decided all not empty elements have to be sorted alphabetically and only elements that are also empty will be in the end. 
 
-## Example:
-Input: ["apple", "banana", "grape", "avocado", "cherry"], Exception prefix: "a"
+## Example Usage
 
-Output: ["banana", "cherry", "grape", "avocado", "apple"]
+**Input:** `["apple", "banana", "grape", "avocado", "cherry"]`  
+**Exception prefix:** `"a"`
 
-Here, "banana", "cherry", and "grape" are sorted in alphabetical order whereas "avocado" and "apple" (that start with 'a') are sorted in reverse alphabetical order at the end of the list.
+**Output:** `["banana", "cherry", "grape", "avocado", "apple"]`
+
+Here, "banana", "cherry", and "grape" are sorted in alphabetical order, whereas "avocado" and "apple" (that start with 'a') are sorted in reverse alphabetical order and are placed at the end of the list.
 
 ## Methods
 
-### `sortStrings(List<String> unsortedStrings, String exceptionChar)`
+### `public List<String> sortStrings(List<String> unsortedStrings, String exceptionChar)`
 
 **Parameters:**
 
@@ -31,9 +34,9 @@ Here, "banana", "cherry", and "grape" are sorted in alphabetical order whereas "
 
 **Returns:**
 
-- A list of sorted strings.
+- A list of sorted strings, considering the exception prefix.
 
-### `isListEmptyOrNull(List<String> list)`
+### `private boolean isListEmptyOrNull(List<String> list)`
 
 **Parameters:**
 
@@ -41,9 +44,19 @@ Here, "banana", "cherry", and "grape" are sorted in alphabetical order whereas "
 
 **Returns:**
 
-- `True` if the list is null or empty, `false` otherwise.
+- `true` if the list is null or empty, `false` otherwise.
 
-### `sortByPrefix(List<String> sortedStrings, String exceptionChar)`
+### `private List<String> sortByEmptyPrefix(List<String> sortedStrings)`
+
+**Parameters:**
+
+- `sortedStrings`: A list of already sorted strings.
+
+**Returns:**
+
+- A list where empty strings are moved to the end.
+
+### `private List<String> sortByPrefix(List<String> sortedStrings, String exceptionChar)`
 
 **Parameters:**
 
@@ -52,10 +65,14 @@ Here, "banana", "cherry", and "grape" are sorted in alphabetical order whereas "
 
 **Returns:**
 
-- A list of sorted strings considering the exception character.
+- A list of sorted strings, considering the exception prefix.
+
+## Additional Features
+
+- The class is designed to handle null or empty strings gracefully.
+- If the exception prefix is empty or null, the class returns the list sorted in alphabetical order with empty strings moved to the end.
 
 ## Documentation
 
-For more detailed documentation, refer to the inline comments and JavaDoc provided in the class file.
+For more detailed documentation, refer to the inline comments and JavaDoc provided within the `StringSorter` class.
 
----
