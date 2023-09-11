@@ -1,42 +1,36 @@
 package org.example;
 
-import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
- * The StringSorter class defines the contract for sorting strings based on
- * alphabetical order while skipping words that start with a specific prefix.
+ * The StringSorter class sorts a list of strings alphabetically but places words that
+ * start with a specific prefix at the end of the list, sorted in reverse alphabetical order.
  * <p>
  * Example:
  * Input: ["apple", "banana", "grape", "avocado", "cherry"], Exception prefix: "a"
  * Output: ["banana", "cherry", "grape", "avocado", "apple"]
- * <p>
- * Here, "banana", "cherry", and "grape" are sorted in alphabetical order
- * whereas "avocado" and "apple" (that start with 'a') are sorted in reverse alphabetical order
- * at the end of the list.
  */
 public class StringSorter {
+
     /**
-     * Sorts a list of strings based on the provided exception character.
+     * Sorts a list of strings based on a given exception prefix.
      *
      * @param unsortedStrings List of unsorted strings.
-     * @param exceptionChar   The specific prefix.
+     * @param exceptionChar   The specific prefix for exception sorting.
      * @return List of sorted strings.
      */
     public List<String> sortStrings(List<String> unsortedStrings, String exceptionChar) {
-        List<String> filteredAndSortedStrings = unsortedStrings.stream()
-                .filter(Objects::nonNull)
-                .sorted()
-                .collect(Collectors.toList());
+        List<String> filteredAndSortedStrings = unsortedStrings.stream().filter(Objects::nonNull).sorted().collect(Collectors.toList());
 
         if ((exceptionChar == null) || (isListEmptyOrNull(unsortedStrings))) {
             return filteredAndSortedStrings;
         }
 
-        return sortByPrefix(filteredAndSortedStrings, exceptionChar);
+        return exceptionChar.isEmpty() ? sortByEmptyPrefix(filteredAndSortedStrings) : sortByPrefix(filteredAndSortedStrings, exceptionChar);
     }
 
     /**
@@ -50,23 +44,33 @@ public class StringSorter {
     }
 
     /**
-     * Handles the sorting logic for strings based on the exception character.
+     * Handles sorting for strings that have an empty prefix.
+     * <p>
+     * This method takes a list of already sorted strings and moves all empty strings to the end.
+     * </p>
      *
      * @param sortedStrings The list of already sorted strings.
+     * @return The list with empty strings moved to the end.
+     */
+    private List<String> sortByEmptyPrefix(List<String> sortedStrings) {
+        List<String> listOfEmptys = sortedStrings.stream().filter(String::isEmpty).collect(Collectors.toList());
+        sortedStrings.removeAll(listOfEmptys);
+        sortedStrings.addAll(listOfEmptys);
+        return sortedStrings;
+    }
+
+    /**
+     * Sorts the strings in the list based on a specific exception character.
+     *
+     * @param sortedStrings List of sorted strings.
      * @param exceptionChar The exception character.
-     * @return The sorted list of strings considering the exception character.
+     * @return The list of sorted strings considering the exception character.
      */
     private List<String> sortByPrefix(List<String> sortedStrings, String exceptionChar) {
-        List<String> exceptionPrefixStrings = new ArrayList<>();
-        List<String> otherStrings = new ArrayList<>();
-        for (String string : sortedStrings) {
-            if (exceptionChar.isEmpty() ? string.isEmpty() : string.startsWith(exceptionChar)) {
-                exceptionPrefixStrings.add(string);
-            } else {
-                otherStrings.add(string);
-            }
-        }
-        exceptionPrefixStrings.sort(Comparator.reverseOrder());
+        List<String> otherStrings = sortedStrings.stream().filter(s -> !s.startsWith(exceptionChar)).collect(Collectors.toList());
+
+        List<String> exceptionPrefixStrings = sortedStrings.stream().filter(s -> s.startsWith(exceptionChar)).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+
         otherStrings.addAll(exceptionPrefixStrings);
         return otherStrings;
     }
